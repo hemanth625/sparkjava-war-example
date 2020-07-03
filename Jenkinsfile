@@ -40,6 +40,9 @@ pipeline {
             cd /home/ubuntu/
             ls -lrt
             curl -uadmin:AP46TAKYYmbBUgTfoobH6y8gevM -O "http://18.189.189.172:8081/artifactory/project/sparkjava-hello-world-1.0.war"
+            echo "file present are"
+            ls -lrt
+            chmod 777 sparkjava-hello-world-1.0.war
             cp sparkjava-hello-world-1.0.war /opt/tomcat/webapps/
         
             '''
