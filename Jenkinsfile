@@ -1,22 +1,33 @@
 pipeline {
-    agent { docker 'maven:3-alpine' }
-    stages{
-        stage("codequality"){ 
-                steps{
-                    sh '''
-            mvn sonar:sonar \
-  -Dsonar.host.url=http://sonarqube.geeksstudy.com \
-  -Dsonar.login=8c55cb317f9c2a24d7fd3e70557ef384c7fc2886
-  '''
+    agent any
+    stages {
+        stage("code quality"){
+            agent { docker 'maven:3-alpine' } 
+            	steps {
+               		sh '''
+                    echo code quality step
+                    '''
+            }
+        }
+        stage('code build and publish') {
+         	agent { docker 'maven:3-alpine' } 
+            	steps {
+               		sh 'mvn clean package'
+                                           rtUpload (
+    serverId: 'artifactory',
+    spec: '''{
+          "files": [
+            {
+              "pattern": "**/sparkjava-hello-world-1.0.war",
+              "target": "project/"
+            }
+         ]
+    }''',
+    buildName: 'project',
+    buildNumber: '1'
+)
             }
         }
 
-        stage("codebuild"){ 
-                steps{
-                    sh ''' 
-                    mvn clean package
-  '''
-            }
-        }
     }
 }
