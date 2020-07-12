@@ -10,5 +10,13 @@ pipeline {
   '''
             }
         }
+
+        stage("codebuild"){ 
+                steps{
+                    sh ''' 
+                    mvn clean package
+  '''
+            }
+        }
     }
 }
