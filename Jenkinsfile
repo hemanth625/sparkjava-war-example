@@ -2,8 +2,8 @@ pipeline {
     agent "any"
     stages{
         stage("codequality"){
+            agent { docker 'maven:3-alpine' } 
             steps{
-                agent { docker 'maven:3-alpine' } 
                 sh '''
             mvn sonar:sonar \
   -Dsonar.host.url=http://sonarqube.geeksstudy.com \
